@@ -21,4 +21,12 @@ defmodule Novex.Utils.List do
   defp _until([], _str, _acc, lst), do: [[], lst]
   defp _until([h | t], str, acc, _base) when h == str, do: [acc ++ [h], t]
   defp _until([h | t], str, acc, base), do: _until(t, str, acc ++ [h], base)
+
+  @doc """
+    fetch last value and return remove last value
+  """
+  def split_last(lst), do: _split_last(lst, [])
+  defp _split_last([], _), do: {nil, []}
+  defp _split_last([h], acc), do: {h, Enum.reverse(acc)}
+  defp _split_last([h | t], acc), do: _split_last(t, [h | acc])
 end

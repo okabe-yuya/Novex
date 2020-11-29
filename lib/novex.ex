@@ -24,20 +24,34 @@ defmodule Novex do
 
   def print_validater do
     pid = launcher()
-    GenServer.call(pid, :read)
+    GenServer.cast(pid, :read)
   end
 
   def fast_print_validater do
     pid = launcher()
-    GenServer.call(pid, :fast_read)
+    GenServer.cast(pid, :read)
+    :timer.sleep(500)
+    GenServer.cast(pid, :fast_read)
   end
 
   def mix_read_and_fast do
     pid = launcher()
-    GenServer.call(pid, :read)
+    GenServer.cast(pid, :read)
     :timer.sleep(2000)
-    GenServer.call(pid, :fast_read)
+    GenServer.cast(pid, :fast_read)
     :timer.sleep(3000)
-    GenServer.call(pid, :fast_read)
+    GenServer.cast(pid, :fast_read)
+  end
+
+  def print do
+    s = "In practice, it is common to have both server and client functions in the same module."
+    pid = launcher()
+    GenServer.cast(pid, {:print, s})
+  end
+
+  def all_read do
+    pid = launcher()
+    GenServer.cast(pid, :all_read)
+    GenServer.cast(pid, :read)
   end
 end
